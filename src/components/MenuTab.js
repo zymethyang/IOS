@@ -10,14 +10,13 @@ import {
     StyleSheet,
     Text,
     View,
-    Image
+    Image,
 } from 'react-native';
 
 
 export default class MenuTab extends Component {
     render() {
         let { icon, text } = this.props.menu;
-        console.log(this.props);
         return (
             <View style={styles.container}>
                 <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>

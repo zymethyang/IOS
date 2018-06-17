@@ -10,10 +10,12 @@ import {
   StyleSheet,
   Text,
   ScrollView,
-  View
+  View,
+  TouchableWithoutFeedback
 } from 'react-native';
 import firebaseConf from '../shared/firebaseConf';
 import MenuTab from '../components/MenuTab';
+import ProfileTab from '../components/ProfileTab';
 var database = firebaseConf.database();
 
 
@@ -24,6 +26,7 @@ export default class MenuScreen extends Component {
       menu: []
     }
   }
+
   componentDidMount() {
     database.ref('/system_settings/menu_config/normal').once('value').then(data => {
       this.setState({
@@ -34,15 +37,28 @@ export default class MenuScreen extends Component {
   render() {
     let { menu } = this.state;
     return (
-      <ScrollView>
-        {this.renderMenu(menu)}
-      </ScrollView>
+      <View style={{ flex: 1, flexDirection: 'column' }}>
+        <View style={{ flex: 2 }}>
+          <ProfileTab />
+        </View>
+        <View style={{ flex: 7 }}>
+          <ScrollView>
+            {this.renderMenu(menu)}
+          </ScrollView>
+        </View>
+      </View>
     );
   }
   renderMenu = (menus) => {
     let result = null;
     result = menus.map((menu, index) => {
-      return (<MenuTab menu={menu} key={index} />);
+      return (
+        <TouchableWithoutFeedback key={index} onPress={() => this.props.navigation.navigate('CreateBookScreen', { 'username': 'user' })}>
+          <View style={{ flex: 1 }}>
+            <MenuTab menu={menu} />
+          </View>
+        </TouchableWithoutFeedback>
+      );
     })
     return result;
   }
